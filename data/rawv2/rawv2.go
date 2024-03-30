@@ -13,17 +13,14 @@ import (
 	"errors"
 	"fmt"
 	"time"
+
+	"github.com/susji/ruuvi/data"
 )
 
 var (
 	ErrorPacketTooSmall = errors.New("packet too small")
 	ErrorPacketNotV2    = errors.New("packet has wrong version")
 	ErrorBadMAC         = errors.New("not a valid MAC address")
-)
-
-const (
-	VERSION_PLAIN = 0x05
-	VERSION_CUT   = 0xC5
 )
 
 // Temperature is degrees Celsius.
@@ -146,9 +143,9 @@ func Parse(d []byte) (*RuuviRawV2, error) {
 func ParseWithTime(d []byte, t time.Time) (*RuuviRawV2, error) {
 	minlen := 0
 	switch d[0] {
-	case VERSION_PLAIN:
+	case data.VERSION_RAWV2:
 		minlen = 24
-	case VERSION_CUT:
+	case data.VERSION_CUTRAWV2:
 		minlen = 18
 	default:
 		return nil, fmt.Errorf("%w: %d", ErrorPacketNotV2, d[0])
@@ -165,7 +162,7 @@ func ParseWithTime(d []byte, t time.Time) (*RuuviRawV2, error) {
 	s += 2
 	r.Pressure = newPressure(bo.Uint16(d[s:]))
 	s += 2
-	if r.Type == VERSION_PLAIN {
+	if r.Type == data.VERSION_RAWV2 {
 		r.AccelerationX = newAcceleration(bo.Uint16(d[s:]))
 		s += 2
 		r.AccelerationY = newAcceleration(bo.Uint16(d[s:]))

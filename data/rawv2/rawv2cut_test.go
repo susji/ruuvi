@@ -8,6 +8,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/susji/ruuvi/data"
 	"github.com/susji/ruuvi/data/rawv2"
 )
 
@@ -28,7 +29,7 @@ func TestBasicCut(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if p.Type != rawv2.VERSION_CUT {
+	if p.Type != data.VERSION_CUTRAWV2 {
 		t.Error(p.Type)
 	}
 	if !p.Temperature.Valid || !ae(p.Temperature.Value, 24.3) {
@@ -71,7 +72,7 @@ func TestMaximumCut(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if p.Type != rawv2.VERSION_CUT {
+	if p.Type != data.VERSION_CUTRAWV2 {
 		t.Error(p.Type)
 	}
 	if !p.Temperature.Valid || !ae(p.Temperature.Value, 163.835) {
@@ -114,7 +115,7 @@ func TestMinimumCut(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if p.Type != rawv2.VERSION_CUT {
+	if p.Type != data.VERSION_CUTRAWV2 {
 		t.Error(p.Type)
 	}
 	if !p.Temperature.Valid || !ae(p.Temperature.Value, -163.835) {
@@ -157,7 +158,7 @@ func TestInvalidCut(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if p.Type != rawv2.VERSION_CUT {
+	if p.Type != data.VERSION_CUTRAWV2 {
 		t.Error(p.Type)
 	}
 	if p.Temperature.Valid {

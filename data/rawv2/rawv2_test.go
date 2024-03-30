@@ -8,6 +8,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/susji/ruuvi/data"
 	"github.com/susji/ruuvi/data/rawv2"
 )
 
@@ -28,7 +29,7 @@ func TestBasic(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if p.Type != rawv2.VERSION_PLAIN {
+	if p.Type != data.VERSION_RAWV2 {
 		t.Error(p.Type)
 	}
 	if !p.Temperature.Valid || !ae(p.Temperature.Value, 24.3) {
@@ -71,7 +72,7 @@ func TestMaximum(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if p.Type != rawv2.VERSION_PLAIN {
+	if p.Type != data.VERSION_RAWV2 {
 		t.Error(p.Type)
 	}
 	if !p.Temperature.Valid || !ae(p.Temperature.Value, 163.835) {
@@ -114,7 +115,7 @@ func TestMinimum(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if p.Type != rawv2.VERSION_PLAIN {
+	if p.Type != data.VERSION_RAWV2 {
 		t.Error(p.Type)
 	}
 	if !p.Temperature.Valid || !ae(p.Temperature.Value, -163.835) {
@@ -157,7 +158,7 @@ func TestInvalid(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if p.Type != rawv2.VERSION_PLAIN {
+	if p.Type != data.VERSION_RAWV2 {
 		t.Error(p.Type)
 	}
 	if p.Temperature.Valid {
