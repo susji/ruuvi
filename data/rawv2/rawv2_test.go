@@ -6,6 +6,7 @@ package rawv2_test
 import (
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/susji/ruuvi/data"
@@ -198,4 +199,18 @@ func TestShort(t *testing.T) {
 	if !errors.Is(err, rawv2.ErrorPacketTooSmall) {
 		t.Fatal(err)
 	}
+}
+
+func TestBadVersio(t *testing.T) {
+	vector := fmt.Sprintf("%02X", data.VERSION_RAWV1) + VECTOR_GOOD[2:]
+	raw := make([]byte, len(vector)/2)
+	n, _ := hex.Decode(raw, []byte(vector))
+	if n != len(raw) {
+		t.Fatal("unexpected n:", n)
+	}
+	_, err := rawv2.Parse(raw)
+	if !errors.Is(err, rawv2.ErrorPacketNotV2) {
+		t.Fatal(err)
+	}
+
 }
