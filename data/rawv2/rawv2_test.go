@@ -213,3 +213,10 @@ func TestBadVersion(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestEmptyPayload(t *testing.T) {
+	_, err := rawv2.Parse(make([]byte, 0))
+	if !errors.Is(err, rawv2.ErrorPacketTooSmall) {
+		t.Fatal(err)
+	}
+}
