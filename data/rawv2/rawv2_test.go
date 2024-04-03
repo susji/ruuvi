@@ -201,7 +201,7 @@ func TestShort(t *testing.T) {
 	}
 }
 
-func TestBadVersio(t *testing.T) {
+func TestBadVersion(t *testing.T) {
 	vector := fmt.Sprintf("%02X", data.VERSION_RAWV1) + VECTOR_GOOD[2:]
 	raw := make([]byte, len(vector)/2)
 	n, _ := hex.Decode(raw, []byte(vector))
@@ -212,5 +212,11 @@ func TestBadVersio(t *testing.T) {
 	if !errors.Is(err, rawv2.ErrorPacketNotV2) {
 		t.Fatal(err)
 	}
+}
 
+func TestEmptyPayload(t *testing.T) {
+	_, err := rawv2.Parse(make([]byte, 0))
+	if !errors.Is(err, rawv2.ErrorPacketTooSmall) {
+		t.Fatal(err)
+	}
 }

@@ -141,6 +141,9 @@ func Parse(d []byte) (*RuuviRawV2, error) {
 // ParseWithTime is as [Parse] except it permits passing an arbitrary timestamp
 // to be included in the returned struct.
 func ParseWithTime(d []byte, t time.Time) (*RuuviRawV2, error) {
+	if len(d) < 1 {
+		return nil, ErrorPacketTooSmall
+	}
 	minlen := 0
 	switch d[0] {
 	case data.VERSION_RAWV2:
